@@ -17,10 +17,7 @@ def cyy():#创立一个函数
     while option != '宝库':#创立一个while循环，直到随机选中“宝库”
         print('你进入了' + option + ',遇到了' + optionT)#设立一个语境，将随机选中的词语填充入内
         print('你要做什么？(输入一个字符)')#让用户选择一个动作
-        C = input()
-        if C == ' ':
-            print('???')
-            break
+        input()
         time.sleep(2)
         print(DO)#打印结果
         if DO == '它攻击了你！你死了！':
