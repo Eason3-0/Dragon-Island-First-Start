@@ -1,6 +1,7 @@
-#Dranon Island
+#Dragon Island v0.2.1
 import random
 import time
+import sys
 def cyy():#创立一个函数
     time.sleep(2)
     print('''恭喜你闯过了第一关！
@@ -9,38 +10,68 @@ def cyy():#创立一个函数
 找到宝库，也许智者会告诉你如何离开！''')#简介
     time.sleep(2)#等待2s
     land = ['草地','高山','池塘','火山','黑森林','森林','废墟','神殿','沙漠','沼泽','矿洞','大海','宝库' ] #创立一个地点列表备用
+    landA = ['草地','高山','池塘','火山','黑森林','森林','废墟','神殿','沙漠','沼泽','矿洞','大海']
     thing = ['一条龙','一个哥布林','一个巨人','一个机器人']#创建一个人物列表备用
     todoa = ['它反击了你！你死了！','你杀死了它！你赢了！','你杀死了它！你赢了！','你杀死了它！你赢了！','你杀死了它！你赢了！']
     todob = ['它没有看到你的离开！你安然无恙！','它攻击了你！你死了！','它没有看到你的离开！你安然无恙！','它没有看到你的离开！你安然无恙！','它没有看到你的离开！你安然无恙！',]
     todoc = ['你没躲过它的攻击！你死了！','它没有发现你，你成功逃过一劫！','它没有发现你，你成功逃过一劫！','它没有发现你，你成功逃过一劫！','它没有发现你，你成功逃过一劫！']
     option = random.choice(land)#随机选择一个地点
+    optionA = random.choice(landA)
     optionT = random.choice(thing)#随机选择一个人物
     optionTo = random.choice(todoa)
     optionToa = random.choice(todob)
     optionTob = random.choice(todoc)   
 
+    for _ in range(5) :#创立一个for循环
+        print('你进入了' + optionA + ',遇到了' + optionT)#设立一个语境，将随机选中的词语填充入内
+        print('你要做什么？(输入：攻击/逃开/躲避/自杀或a/b/c/d(小写))')#让用户选择一个动作
+        C = input()
+        if C == '自杀' or C == 'd':
+            print('你死了！')
+            sys.exit(0)
+        elif C == '攻击' or C == 'a':
+            time.sleep(2)
+            print(optionTo)#打印结果
+            if optionTo == '它反击了你！你死了！':
+                sys.exit(0)
+        elif C == '逃开' or C == 'b':
+            time.sleep(2)
+            print(optionToa)
+            if optionToa == '它攻击了你！你死了！':
+                sys.exit(0)
+        elif C == '躲避' or C == 'c':
+            time.sleep(2)
+            print(optionTob)
+            if optionTob == '你没躲过它的攻击！你死了！':
+                sys.exit(0)
+        option = random.choice(land)
+        optionT = random.choice(thing)
+        optionTo = random.choice(todoa)
+        optionToa = random.choice(todob)
+        optionTob = random.choice(todoc) 
+    
     while option != '宝库':#创立一个while循环，直到随机选中“宝库”
         print('你进入了' + option + ',遇到了' + optionT)#设立一个语境，将随机选中的词语填充入内
         print('你要做什么？(输入：攻击/逃开/躲避/自杀或a/b/c/d(小写))')#让用户选择一个动作
         C = input()
         if C == '自杀':
             print('你死了！')
-            break
+            sys.exit(0)
         elif C == '攻击':
             time.sleep(2)
             print(optionTo)#打印结果
             if optionTo == '它反击了你！你死了！':
-                break
+                sys.exit(0)
         elif C == '逃开':
             time.sleep(2)
             print(optionToa)
             if optionToa == '它攻击了你！你死了！':
-                break
+                sys.exit(0)
         elif C == '躲避':
             time.sleep(2)
             print(optionTob)
             if optionTob == '你没躲过它的攻击！你死了！':
-                break
+                sys.exit(0)
         option = random.choice(land)
         optionT = random.choice(thing)
         optionTo = random.choice(todoa)
@@ -87,7 +118,7 @@ def checkCave(chosenCave):
         #设置两种情况
 
 playAgain = 'Yes'
-while playAgain == 'Yes' or playAgain == 'Y':#设立一个检测用户键入的程序
+while playAgain == 'Yes' or playAgain == 'Y' or playAgain == 'y':#设立一个检测用户键入的程序
     intro()
     caveNumber = chooseCave()
     checkCave(caveNumber)#执行步骤
