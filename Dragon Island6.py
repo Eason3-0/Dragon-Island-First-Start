@@ -1,7 +1,7 @@
-import random
-import time
-import sys
 import abc
+import random
+import sys
+import time
 
 land_list = ['宝库', '草地', '高山', '池塘', '火山', '黑森林', '森林',
                  '废墟', '神殿', '沙漠', '沼泽', '矿洞', '大海']  # 创立一个地点列表备用
