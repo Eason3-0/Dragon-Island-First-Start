@@ -18,19 +18,19 @@ class Creature(ABC):
     HP = 0 # 生命值
     QB = 0 # 灵敏值
     Bag = []  # 背包
-    
+
     @abstractmethod
-    def get_status_str(self): # 状态字符串
+    def get_status_str(self):  # 状态字符串
         raise NotImplementedError()
 
     @abstractmethod
     def do_fight_round(self, opponent):
         raise NotImplementedError()
     
-    def is_alive(self): # 存活确认
+    def is_alive(self):  # 存活确认
         return self.AC > 0 and self.AB > 0 and self.HP > 0 and self.QB > 0
  
-    def judge(self, diff): # 根据QB差值，判断攻击等技能是否成立
+    def judge(self, diff):  # 根据QB差值，判断攻击等技能是否成立
         threshhold = 0
         if diff >= 0:
             threshhold = 1 - math.pow(0.5, diff)
@@ -92,7 +92,7 @@ class Monster_YoungWhiteDragon(Monster):
         if self.judge(role.QB - self.QB):
             print('你躲过了幼年白龙的攻击')
         else:
-            how_to_fight = random.randint(1, 10)# 三种攻击选中的概率比为4：4：2
+            how_to_fight = random.randint(1, 10)  # 三种攻击选中的概率比为4：4：2
             if how_to_fight <= 4:
                 print('幼年白龙使用了啮咬攻击！')
                 self.AB -= 2
@@ -122,6 +122,7 @@ class Monster_YoungWhiteDragon(Monster):
                     role.HP -= random.randint(4, 7)
                     print('幼年白龙对你造成了寒冰伤害！')
 
+
 # 地精剑士 lv.1 杂兵
 class Monster_GoblinCutter(Monster):
     def __init__(self):
@@ -134,7 +135,7 @@ class Monster_GoblinCutter(Monster):
 
     def do_fight_round(self, role):
         print('地精剑士对你发起了进攻！')
-        
+
         if self.judge(role.QB - self.QB):
             print('你躲过了地精剑士的攻击')
         else:
