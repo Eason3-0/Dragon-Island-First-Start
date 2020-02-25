@@ -1,3 +1,3 @@
 # Dragon-Island
 
-Dragon Island游戏
+Dragon Island——龙与地下城类型的游戏
