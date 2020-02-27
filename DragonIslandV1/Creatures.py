@@ -158,12 +158,13 @@ class Monster_GoblinCutter(Monster):
 
 # 地精巫师 lv.3 控制（头目）
 class Monster_GoblinHexer(Monster):
+    #Monster_Name = 
     def __init__(self):
         self.AC = 9
         self.HP = 12
         self.AB = 8
         self.QB = 10
-        self.Name = '地精巫师'
+        #self.Name = '地精巫师'
         self.Money = random.randint(20, 60)
 
     def do_fight_round(self, role):
