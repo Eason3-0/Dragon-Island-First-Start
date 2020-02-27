@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-# 图形界面版 vertion 0.5.0a1
+# 图形界面版 version 0.5.0a1
 
 import os
 
@@ -13,11 +13,12 @@ SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 FRAME_WIDTH = 3
 
 FRAME_COLOR = (60, 60, 60)
-BG_COLOR1 = (21, 35, 50)
+BG_COLOR1 = (0, 0, 0)
 BG_COLOR2 = (220, 220, 220)
-
 TEXT_COLOR = (255, 255, 255)
 
+MUSIC = './res/overworld.mp3'
+FPS = 30
 
 class Game(object):
 
@@ -54,20 +55,32 @@ class Game(object):
         self._surf_bg = pygame.Surface(SCREEN_SIZE)
         self._surf_bg.fill(FRAME_COLOR)
 
-        self._font = pygame.font.Font('./res/FZXIANGSU12.TTF', 24)
+        self._font = pygame.font.Font('./res/FZXIANGSU16.TTF', 16)
 
     def update_creature_info(self, creature, surf):
+        y = 10
         surf.fill(BG_COLOR1)
         status_str = creature.get_status_str()
-        status_list = status_str.split(',')
+        status_text_list = status_str.split(',')
         
         text_obj = self._font.render(f'职业: {creature.Name}', False, TEXT_COLOR)
-        surf.blit(text_obj, (10, 10))
+        surf.blit(text_obj, (10, 5))
+        
+        y += text_obj.get_rect().height * 1.5
+        for status_text in status_text_list:
+            text_obj = self._font.render(status_text.lstrip(), False, TEXT_COLOR)
+            surf.blit(text_obj, (10, y))
+            y += text_obj.get_rect().height * 1.5
 
     def main_loop(self):
-        clock = pygame.time.Clock()
-
+        fps_clock = pygame.time.Clock()
         role = Creatures.Role_Fighter()
+        monster = Creatures.Monster_GoblinCutter()
+
+        # Background music
+        background_music = pygame.mixer.music.load(MUSIC)
+        pygame.mixer.music.play(-1, 0.0)
+        mute = False
 
         running = True
         while running:
@@ -75,12 +88,20 @@ class Game(object):
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
+                    elif event.key == K_m:
+                        if mute == False:
+                            pygame.mixer.music.set_volume(0.0)
+                            mute = True
+                        elif mute == True:
+                            pygame.mixer.music.set_volume(1.0)
+                            mute = False
                 elif event.type == QUIT:
                     running = False
 
-            clock.tick(120)
+            fps_clock.tick(FPS)
 
             self.update_creature_info(role, self._surf_role)
+            self.update_creature_info(monster, self._surf_monster)
 
             self._screen.blit(self._surf_bg, (0, 0))
             self._screen.blit(self._surf_main, self._rect_main)
@@ -88,13 +109,12 @@ class Game(object):
             self._screen.blit(self._surf_role, self._rect_role)
             self._screen.blit(self._surf_monster, self._rect_monster)
             
-
-            # text_obj = self._font.render('年轻的白龙', True, (255, 255, 255))
-            #self._screen.blit(self._surf_role, (600, 320))
+        
 
             pygame.display.flip()
 
         pygame.quit()
+
 
 if __name__ == "__main__":
     game = Game()
