@@ -9,7 +9,7 @@ import math
 # 怪兽和角色的基础类
 class Creature(ABC):
     @abstractmethod
-    def get_status(self):  # 状态字符串
+    def get_status_str(self):  # 状态字符串
         pass
 
     # @abstractmethod
@@ -31,8 +31,6 @@ class Creature(ABC):
  
 # 怪兽的基础类
 class Monster(Creature):
-    Money = 10
-
     def get_status_str(self):
          return f'AC: {self.AC}, AB: {self.AB}, HP: {self.HP}, QB: {self.QB}'
 
@@ -48,8 +46,7 @@ class Role(Creature):
 
     def __init__(self):
         self.Money = 100
-        #self.total_rounds = 0
-        self.introduce = [f'你选择了{self.Name}！\n这是一个不错的职业，只是…\n你首先要了解：\n我们的世界由五大属性组成：',
+        self.introduce = [f'你选择了{self.Name}！这是一个不错的职业，只是…\n你首先要了解：我们的世界由五大属性组成：',
                             '分别是：\n防御值（AC）：在你遭受攻击时挡住攻击',
                             '生命值（HP）：在你受到攻击时遭受的伤害',
                             '攻击加值（AB）：在你挥出巨剑时带给敌方的痛苦感受',
