@@ -28,11 +28,11 @@ class Creature(ABC):
 
         return random.random() < threshhold
 
- 
+
 # 怪兽的基础类
 class Monster(Creature):
     def get_status_str(self):
-         return f'AC: {self.AC}, AB: {self.AB}, HP: {self.HP}, QB: {self.QB}'
+        return f'AC: {self.AC}, AB: {self.AB}, HP: {self.HP}, QB: {self.QB}'
 
 
 # 网游职业的基础类
@@ -42,17 +42,17 @@ class Role(Creature):
     escape_results = ['它没有看到你的离开！你安然无恙！', '它攻击了你！你受伤了！',
                       '它没有看到你的离开！你安然无恙！', '它没有看到你的离开！你安然无恙！', '它没有看到你的离开！你安然无恙！', ]
     hide_results = ['你没躲过它的攻击！你受伤了！', '它没有发现你，你成功逃过一劫！',
-                '它没有发现你，你成功逃过一劫！', '它没有发现你，你成功逃过一劫！', '它没有发现你，你成功逃过一劫！']
+                    '它没有发现你，你成功逃过一劫！', '它没有发现你，你成功逃过一劫！', '它没有发现你，你成功逃过一劫！']
 
     def __init__(self):
         self.Money = 100
         self.introduce = [f'你选择了{self.Name}！这是一个不错的职业，只是…\n你首先要了解：我们的世界由五大属性组成：',
-                            '分别是：\n防御值（AC）：在你遭受攻击时挡住攻击',
-                            '生命值（HP）：在你受到攻击时遭受的伤害',
-                            '攻击加值（AB）：在你挥出巨剑时带给敌方的痛苦感受',
-                            '灵敏值（QB）：在你躲过敌方致命一击时的冲刺',
-                            '与金钱（Money）：你胜利击退可恶的铁脑壳时获取的奖赏',
-                            f'当你了解了这些之后，你需要知道{self.Name}的各项属性：\n AC = {self.AC}  HP ={self.HP}  AB = {self.AB}  QB ={self.QB}  Money = {self.Money}\n(任何一项为0，你都会死亡(除Money之外))']
+                          '分别是：\n防御值（AC）：在你遭受攻击时挡住攻击',
+                          '生命值（HP）：在你受到攻击时遭受的伤害',
+                          '攻击加值（AB）：在你挥出巨剑时带给敌方的痛苦感受',
+                          '灵敏值（QB）：在你躲过敌方致命一击时的冲刺',
+                          '与金钱（Money）：你胜利击退可恶的铁脑壳时获取的奖赏',
+                          f'当你了解了这些之后，你需要知道{self.Name}的各项属性：\n AC = {self.AC}  HP ={self.HP}  AB = {self.AB}  QB ={self.QB}  Money = {self.Money}\n(任何一项为0，你都会死亡(除Money之外))']
 
     def display_role_introduce(self):
         for line in self.introduce:
@@ -75,7 +75,7 @@ class Monster_YoungWhiteDragon(Monster):
 
     def do_fight_round(self, role):
         print('幼年白龙对你发起了进攻！')
-        
+
         if self.judge(role.QB - self.QB):
             print('你躲过了幼年白龙的攻击')
         else:
@@ -126,7 +126,7 @@ class Monster_GoblinCutter(Monster):
         if self.judge(role.QB - self.QB):
             print('你躲过了地精剑士的攻击')
         else:
-            how_to_fight = random.randint(1, 10)# 三种攻击选中的概率比为4：4：2
+            how_to_fight = random.randint(1, 10)  # 三种攻击选中的概率比为4：4：2
             if how_to_fight <= 4:
                 print('地精剑士使用了空裂斩！')
                 self.AB -= 1
@@ -156,24 +156,25 @@ class Monster_GoblinCutter(Monster):
                     role.HP -= random.randint(2, 4)
                     print('地精剑士对你造成了物理伤害！')
 
+
 # 地精巫师 lv.3 控制（头目）
 class Monster_GoblinHexer(Monster):
-    #Monster_Name = 
+    # Monster_Name =
     def __init__(self):
         self.AC = 9
         self.HP = 12
         self.AB = 8
         self.QB = 10
-        #self.Name = '地精巫师'
+        # self.Name = '地精巫师'
         self.Money = random.randint(20, 60)
 
     def do_fight_round(self, role):
         print('地精巫师对你发起了进攻！')
-        
+
         if self.judge(role.QB - self.QB):
             print('你躲过了地精巫师的攻击')
         else:
-            how_to_fight = random.randint(1, 10)# 三种攻击选中的概率比为4：4：2
+            how_to_fight = random.randint(1, 10)  # 三种攻击选中的概率比为4：4：2
             if how_to_fight <= 4:
                 print('地精巫师使用了目盲术！')
                 self.HP -= 1
@@ -203,6 +204,7 @@ class Monster_GoblinHexer(Monster):
                     role.HP -= random.randint(3, 5)
                     print('地精巫师对你造成了范围性法术伤害！')
 
+
 # 朽坏骷髅 lv.1 杂兵
 class Monster_DecrepitSkeleton(Monster):
     def __init__(self):
@@ -215,11 +217,11 @@ class Monster_DecrepitSkeleton(Monster):
 
     def do_fight_round(self, role):
         print('朽坏骷髅对你发起了进攻！')
-        
+
         if self.judge(role.QB - self.QB):
             print('你躲过了朽坏骷髅的攻击')
         else:
-            how_to_fight = random.randint(1, 10)# 三种攻击选中的概率比为4：4：2
+            how_to_fight = random.randint(1, 10)  # 三种攻击选中的概率比为4：4：2
             if how_to_fight <= 4:
                 print('朽坏骷髅使用了腐化之箭！')
                 self.QB -= 1
@@ -248,6 +250,7 @@ class Monster_DecrepitSkeleton(Monster):
                     role.HP -= random.randint(2, 4)
                     print('朽坏骷髅对你造成了疾病伤害！')
 
+
 # 炽焰骷髅 lv.5 远程
 class Monster_BlzingSkeleton(Monster):
     def __init__(self):
@@ -260,11 +263,11 @@ class Monster_BlzingSkeleton(Monster):
 
     def do_fight_round(self, role):
         print('炽焰骷髅对你发起了进攻！')
-        
+
         if self.judge(role.QB - self.QB):
             print('你躲过了炽焰骷髅的攻击')
         else:
-            how_to_fight = random.randint(1, 10)# 三种攻击选中的概率比为4：4：2
+            how_to_fight = random.randint(1, 10)  # 三种攻击选中的概率比为4：4：2
             if how_to_fight <= 4:
                 print('炽焰骷髅使用了烈焰球！')
                 self.HP -= 1
@@ -304,10 +307,10 @@ class Role_Fighter(Role):
         self.QB = 8
         self.Name = '战士'
         Role.__init__(self)
-       
+
     def do_fight_round(self, monster):
         print('你要做什么？', '你可以选择：', 'a: 战斗 / b: 逃避 / c: 躲避', sep='\n')
-        
+
         action = ''
         while action not in ['a', 'b', 'c']:
             action = input('请选择对应的动作 (a/b/c): ').lower()
@@ -339,7 +342,7 @@ class Role_Fighter(Role):
             input('作为一名战士，你只能走着离开，按下任意一个键来继续下一步')
             self.QB -= 1
             self.HP += 1
-            
+
             if self.judge(monster.QB - self.QB - 1):
                 print('糟糕，逃避失败了！')
                 self.HP -= random.randint(2, 4)
@@ -347,7 +350,7 @@ class Role_Fighter(Role):
             else:
                 print('它没有看到你的离开！你安然无恙！')
                 return True
-               
+
         elif action == 'c':
             print('WOW！你选择了', '躲避！(AC-1, QB+1)', 'Good Luck!', sep='\n')
             input('作为一名战士，你只能蹲下躲避，按下任意一个键来继续下一步')
@@ -360,6 +363,7 @@ class Role_Fighter(Role):
             else:
                 print('它没有发现你，你成功逃过一劫！')
 
+
 # 法师
 class Role_Wizard(Role):
     def __init__(self):
@@ -369,7 +373,7 @@ class Role_Wizard(Role):
         self.QB = 15
         self.Name = '法师'
         Role.__init__(self)
-       
+
     def do_fight_round(self, monster):
         print('你要做什么？', '你可以选择：', 'a: 战斗 / b: 逃避 / c: 躲避', sep='\n')
 
@@ -380,13 +384,13 @@ class Role_Wizard(Role):
         if action == 'a':
             print('WOW！你选择了', '攻击！', '这可是勇者的行为！', 'Good Luck!', sep='\n')
             attack_way = input('作为一名法师，你可以使用你的火球(AB-1，AC+1)，或用你的闪电（AB-1，AC+1），\n\
-                或者使用冲击（AB-1，HP+1）敌人冲去（a/b/c）：').lower()
+                或者使用冲击（AB-1，HP+1）敌人冲去（a/b/c）：'                                                                                                                                          ).lower()
             if attack_way == 'a':
                 print('你选择了使用火球攻击，加油！')
                 self.AB -= 1
                 self.AC += 1
                 if self.judge(monster.QB - self.QB):
-                        print(f'{monster.Name}躲过了你的的攻击')
+                    print(f'{monster.Name}躲过了你的的攻击')
                 else:
                     print(f'火球攻击成功，{monster.Name}遭到了重创！')
                     monster.HP -= random.randint(3, 6)
@@ -423,7 +427,7 @@ class Role_Wizard(Role):
             else:
                 print('它没有看到你的离开！你安然无恙！')
                 return True
-               
+
         elif action == 'c':
             print('WOW！你选择了', '躲避！(AC-1,QB+1)', 'Good Luck!', sep='\n')
             input('作为一名法师，你只能使用隐身躲避，按下任意一个键来继续下一步')
@@ -435,8 +439,8 @@ class Role_Wizard(Role):
                 print(f'你还剩下{self.HP}点生命值')
             else:
                 print('它没有发现你，你成功逃过一劫！')
-        
-    
+
+
 # 游侠
 class Role_Ranger(Role):
     def __init__(self):
@@ -449,13 +453,14 @@ class Role_Ranger(Role):
 
     def do_fight_round(self, monster):
         print('你要做什么？', '你可以选择：', 'a: 战斗 / b: 逃避 / c: 躲避', sep='\n')
-        action=''
+        action = ''
         while action not in ['a', 'b', 'c']:
-            action=input('请选择对应的动作 (a/b/c): ').lower()
+            action = input('请选择对应的动作 (a/b/c): ').lower()
 
         if action == 'a':
             print('WOW！你选择了', '攻击！', '这可是勇者的行为！', 'Good Luck!', sep='\n')
-            attack_way=input('作为一名游侠，你可以使用你的弓箭(AB-1，AC+1)，或者使用你有力的拳头（HP-1）（a/b）').lower()
+            attack_way = input(
+                '作为一名游侠，你可以使用你的弓箭(AB-1，AC+1)，或者使用你有力的拳头（HP-1）（a/b）').lower()
             if attack_way == 'a':
                 print('你选择了使用弓箭攻击', '加油！', sep='\n')
                 self.AB -= 1
