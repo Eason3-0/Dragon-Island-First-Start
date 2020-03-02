@@ -34,26 +34,26 @@ class Game(object):
         icon = pygame.image.load('./res/icon.png')
         pygame.display.set_icon(icon)
 
-        self._screen = pygame.display.set_mode(SCREEN_SIZE)
+        self.screen = pygame.display.set_mode(SCREEN_SIZE)
 
-        self._surf_main = pygame.Surface((SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3))
-        self._surf_main.fill(BG_COLOR1)
-        self._rect_main = self._surf_main.get_rect()
+        self.surf_main = pygame.Surface((SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3))
+        self.surf_main.fill(BG_COLOR1)
+        self.rect_main = self.surf_main.get_rect()
 
-        self._surf_input = pygame.Surface((SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT / 3 - FRAME_WIDTH))
-        self._surf_input.fill(BG_COLOR1)
-        self._rect_input = self._surf_input.get_rect().move(0, SCREEN_HEIGHT * 2 / 3 + FRAME_WIDTH)
+        self.surf_input = pygame.Surface((SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT / 3 - FRAME_WIDTH))
+        self.surf_input.fill(BG_COLOR1)
+        self.rect_input = self.surf_input.get_rect().move(0, SCREEN_HEIGHT * 2 / 3 + FRAME_WIDTH)
 
-        self._surf_role = pygame.Surface((SCREEN_WIDTH / 3 - FRAME_WIDTH, SCREEN_HEIGHT / 2))
-        self._surf_role.fill(BG_COLOR1)
-        self._rect_role = self._surf_role.get_rect().move(SCREEN_WIDTH * 2 / 3 + FRAME_WIDTH, 0)
+        self.surf_role = pygame.Surface((SCREEN_WIDTH / 3 - FRAME_WIDTH, SCREEN_HEIGHT / 2))
+        self.surf_role.fill(BG_COLOR1)
+        self.rect_role = self.surf_role.get_rect().move(SCREEN_WIDTH * 2 / 3 + FRAME_WIDTH, 0)
 
-        self._surf_monster = pygame.Surface((SCREEN_WIDTH / 3 - FRAME_WIDTH, SCREEN_HEIGHT / 2 - FRAME_WIDTH))
-        self._surf_monster.fill(BG_COLOR1)
-        self._rect_monster = self._surf_monster.get_rect().move(SCREEN_WIDTH * 2 / 3 + FRAME_WIDTH, SCREEN_HEIGHT / 2 + FRAME_WIDTH)
+        self.surf_monster = pygame.Surface((SCREEN_WIDTH / 3 - FRAME_WIDTH, SCREEN_HEIGHT / 2 - FRAME_WIDTH))
+        self.surf_monster.fill(BG_COLOR1)
+        self.rect_monster = self.surf_monster.get_rect().move(SCREEN_WIDTH * 2 / 3 + FRAME_WIDTH, SCREEN_HEIGHT / 2 + FRAME_WIDTH)
 
-        self._surf_bg = pygame.Surface(SCREEN_SIZE)
-        self._surf_bg.fill(FRAME_COLOR)
+        self.surf_bg = pygame.Surface(SCREEN_SIZE)
+        self.surf_bg.fill(FRAME_COLOR)
 
         self._font = pygame.font.Font('./res/FZXIANGSU16.TTF', 16)
 
@@ -64,7 +64,7 @@ class Game(object):
         status_text_list = status_str.split(',')
         
         text_obj = self._font.render(f'职业: {creature.Name}', False, TEXT_COLOR)
-        surf.blit(text_obj, (10, 5))
+        surf.blit(text_obj, (10, 5))z
         
         y += text_obj.get_rect().height * 1.5
         for status_text in status_text_list:
@@ -100,14 +100,14 @@ class Game(object):
 
             fps_clock.tick(FPS)
 
-            self.update_creature_info(role, self._surf_role)
-            self.update_creature_info(monster, self._surf_monster)
+            self.update_creature_info(role, self.surf_role)
+            self.update_creature_info(monster, self.surf_monster)
 
-            self._screen.blit(self._surf_bg, (0, 0))
-            self._screen.blit(self._surf_main, self._rect_main)
-            self._screen.blit(self._surf_input, self._rect_input)
-            self._screen.blit(self._surf_role, self._rect_role)
-            self._screen.blit(self._surf_monster, self._rect_monster)
+            self.screen.blit(self.surf_bg, (0, 0))
+            self.screen.blit(self.surf_main, self.rect_main)
+            self.screen.blit(self.surf_input, self.rect_input)
+            self.screen.blit(self.surf_role, self.rect_role)
+            self.screen.blit(self.surf_monster, self.rect_monster)
             
         
 
