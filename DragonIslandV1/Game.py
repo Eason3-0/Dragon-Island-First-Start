@@ -11,6 +11,7 @@ import tools
 from settings import *
 from Scenes import *
 
+
 class Game(object):
 
     def __init__(self):
@@ -57,10 +58,15 @@ class Game(object):
                         elif mute == True:
                             pg.mixer.music.set_volume(1.0)
                             mute = False
+                    else:
+                        active_scene.ProcessInput(event.key)
                 elif event.type == QUIT:
                     running = False
 
+            active_scene.ProcessInput()
+            active_scene.Update()
             active_scene.Render()
+            active_scene = active_scene.next
 
             fps_clock.tick(FPS)
 
@@ -72,6 +78,7 @@ class Game(object):
             pg.display.flip()
 
         pg.quit()
+
 
 if __name__ == "__main__":
     game = Game()
