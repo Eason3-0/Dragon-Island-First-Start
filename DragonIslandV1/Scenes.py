@@ -6,6 +6,7 @@ import sys
 
 from settings import *
 from tools import *
+from textrect import render_textrect
 
 from pygame.locals import *
 import pygame as pg
@@ -16,12 +17,12 @@ def tile_to_pixel(tile_x, tile_y, adj_x=0, adj_y=0):
 
 
 def pixel_to_tile(x, y):
-    return (x / 40 , y / 40)
+    return (x / 40, y / 40)
 
 
 def render_text_centered(text, font, color, tile_x, tile_y):
     # Renders text centered on the given tile co-ordinate
-    text_surf = font.render(text, True, color)
+    text_surf = font.render(text, False, color)
     text_rect = text_surf.get_rect()
     text_rect.center = tile_to_pixel(tile_x, tile_y, 20, 20)
     SCREEN.blit(text_surf, text_rect)
@@ -33,31 +34,52 @@ def set_tile(tile_x, tile_y, tile_name):
     SCREEN.blit(image, tile_to_pixel(tile_x, tile_y))
 
 
-def render_menuitem_centered(text,  tile_x, tile_y, width:int, is_selected, adj_x=0, adj_y=0):
-    if width < 3:
-        raise ValueError('width cannot less than 3')
-    
-    if is_selected:
-        color = YELLOW
-    else:
-        color = WHITE
-
-    set_tile(tile_x - width / 2, tile_y, 'styled_button_left')
-    for i in range(1, width):
-        set_tile(tile_x - width / 2 + i, tile_y, 'button_middle_green')
-
-    set_tile(tile_x + width / 2, tile_y, 'styled_button_right')
-    render_text_centered(text, FONT_NORMAL, color, tile_x, tile_y)
-
-
 def mouse_between_tiles(x1, y1, x2, y2):
     # Tests if the mouse is anywhere between any of the
-    mouse_x, mouse_y = pygame.mouse.get_pos()
+    mouse_x, mouse_y = pg.mouse.get_pos()
     top_left = tile_to_pixel(x1, y1)
-    bottom_right = tile_to_pixel(x2 + 1, y2 + 1)
-    if mouse_x >= top_left[0] and mouse_x < bottom_right[0] \
-       and mouse_y >= top_left[1] and mouse_y < bottom_right[1]:
+    bottom_right = tile_to_pixel(x2, y2, 39, 39)
+    if mouse_x >= top_left[0] and mouse_x <= bottom_right[0] \
+       and mouse_y >= top_left[1] and mouse_y <= bottom_right[1]:
         return True
+
+
+class Menuitem(object):
+    def __init__(self, text, tile_left, tile_right, tile_y, menu_type, func=None):
+        # menu_type: 0 means normal menu; 1 means arrow menu
+        self.text = text
+        self.tile_left = tile_left
+        self.tile_right = tile_right
+        self.tile_y = tile_y
+        self.menu_type = menu_type
+        self.font = FONT_NORMAL
+        self.func = func
+
+    def execute(self, parent_scene):
+        # execute the function assigned by parent scene
+        if self.func:
+            self.func(parent_scene)
+        else:
+            parent_scene.next = Message_Scence('Not implemented', parent_scene)
+
+    def mouse_in_me(self):
+        # Tests if the mouse is anywhere between any of the
+        return mouse_between_tiles(self.tile_left, self.tile_y, self.tile_right, self.tile_y)
+
+    def render(self, been_selected=False):
+        text_color = YELLOW if been_selected else WHITE
+        left_image = 'styled_button_left'
+        middle_image = 'button_middle_green'
+        right_image = 'styled_button_right'
+
+        set_tile(self.tile_left, self.tile_y, left_image)
+        set_tile(self.tile_right, self.tile_y, right_image)
+
+        for tile_x in range(self.tile_left + 1, self.tile_right):
+            set_tile(tile_x, self.tile_y, middle_image)
+
+        tile_x = (self.tile_left + self.tile_right) / 2
+        render_text_centered(self.text, self.font, text_color, tile_x, self.tile_y)
 
 
 class SceneBase(ABC):
@@ -65,16 +87,16 @@ class SceneBase(ABC):
         self.next = self
 
     @abstractmethod
-    def ProcessInput(self, key=None):
+    def process_input(self, key=None):
         # Recieves all events that have happened
         pass
 
-    def Update(self):
+    def update(self):
         # Game logic goes here
         pass
 
     @abstractmethod
-    def Render(self):
+    def render(self):
         # Render to the main display
         pass
 
@@ -83,78 +105,49 @@ class Mainmenu_Scene(SceneBase):
     def __init__(self):
         super().__init__()
 
-        self.menu_items = ['新 游 戏', '读 取 存 档', '关 于', '退 出']
-        self.selected_menuitem_index = 0
-        
-        self.NEW_GAME_INDEX = 0
-        self.LOAD_GAME_INDEX = 1
-        self.ABOUT_INDEX = 2
-        self.EXIT_INDEX = 3
+        func_exit = lambda scene: quit_game()
+        def func_about(scene):
+            message_lines = ('~~~~欢迎到来~~~~\n'
+                            'DRAGON ISLAND: FIRST START\n'
+                            '本游戏由\nHACKER.C.D. GAME STUDIO\n'
+                            '开发制作.\n游戏愉快 ；）')
+            self.next = Message_Scence(message_lines, self)
 
+        self.menuitems = (Menuitem('新 游 戏', 7, 12, 6, 0),
+                          Menuitem('读 取 存 档', 7, 12, 8, 0),
+                          Menuitem('关 于', 7, 12, 10, 0, func_about),
+                          Menuitem('退 出', 7, 12, 12, 0, func_exit))
+        self.selected_index = 0
 
-    def ProcessInput(self, key=None):
-        do_enter = False
-        if key:            
+    def process_input(self, key=None):
+        menuitem_clicked = None
+        if key:  # 键盘输入
             if key in [K_UP, K_DOWN]:
                 SFX['thud'].play()
-                if key == K_UP:
-                    self.selected_menuitem_index -= 1
-                else:
-                    self.selected_menuitem_index += 1
+                self.selected_index += (1 if key == K_DOWN else -1)
+                self.selected_index %= len(self.menuitems) # keep in 0 ~ menuitem count
             elif key == K_RETURN:
-                do_enter = True
-            else:
-                return
+                menuitem_clicked = self.menuitems[self.selected_index]
+        else:  # 鼠标点击
+            if pg.mouse.get_pressed()[0]:
+                for index, item in enumerate(self.menuitems):
+                    if item.mouse_in_me():
+                        self.selected_index = index
+                        menuitem_clicked = self.menuitems[self.selected_index]
+                        break
 
-            self.selected_menuitem_index %= len(self.menu_items)
-        else:
-            pressed = pg.mouse.get_pressed()
-            if pressed[0]:            
-                index = self.get_mouse_menuitem()
-                if index >= 0:
-                    self.selected_menuitem_index = index
-                    do_enter = True
-        
-        if do_enter:
-            if self.selected_menuitem_index == self.EXIT_INDEX:
-                pg.quit()
-                sys.exit()
-            else:
-                self.next = Message_Scence('Not implemented')
+        if menuitem_clicked:
+            menuitem_clicked.execute(self)
 
-    def Render(self):
+    def render(self):
         SCREEN.fill(BG_COLOR1)
-        render_text_centered('DRAGON ISLAND', FONT_LARGE, LIGHTGREEN, 9.5, 2)
-
-        tile_y = 6
-        distance = 2
-
-        for index, item in enumerate(self.menu_items):
-            render_menuitem_centered(item, 9.5, tile_y, 5, index == self.selected_menuitem_index)
-            tile_y += distance
+        render_text_centered('DRAGON ISLAND', FONT_LARGE, LIGHTGREEN, 9.5, 1.8)
+        render_text_centered('FIRST START', FONT_LARGE, LIGHTGREEN, 9.5, 3)
+        for index, item in enumerate(self.menuitems):
+            item.render(index == self.selected_index)
 
         #render_text_centered("按 'M' 键切换静音", FONT_NORMAL, WHITE, 9.5, 13)
 
-    def get_mouse_menuitem(self):
-        # Tests if the mouse is anywhere between any of the
-        mousex, mousey = pg.mouse.get_pos()
-        tile_x, tile_y = pixel_to_tile(mousex, mousey)
-        
-        if 7 < tile_x < 12:
-            tile_y -= 6
-            if 0 < tile_y < 1:
-                return 0
-            elif 2 < tile_y < 3:
-                return 1
-            elif 4 < tile_y < 5:
-                return 2
-            elif 6 < tile_y < 7:
-                return 3
-            else:
-                return -1
-        else:
-            return -1
-            
 
 class CharactorSelection_Scene(SceneBase):
     pass
@@ -163,23 +156,35 @@ class CharactorSelection_Scene(SceneBase):
 class Shop_Scene(SceneBase):
     pass
 
+
 class Message_Scence(SceneBase):
-    def __init__(self, msg):
+    def __init__(self, msg, scene_from):
         super().__init__()
+        def func_back(scene):
+            scene.scene_from.next = scene.scene_from
+            scene.next = scene.scene_from
+
+        self.menuitem_back = Menuitem('返 回', 8, 11, 2, 0, func_back)
         self.message = msg
-        self.parent_scene = Mainmenu_Scene()
-    
-    def ProcessInput(self, key=None):
+        self.scene_from = scene_from
+
+    def process_input(self, key=None):
         # Recieves all events that have happened
-        if key == K_RETURN:
-            self.next = self.parent_scene
+        menuitem_clicked = None
+        if key in [K_RETURN, K_ESCAPE] or pg.mouse.get_pressed()[0] and self.menuitem_back.mouse_in_me():
+            menuitem_clicked = self.menuitem_back
+        
+        if menuitem_clicked:
+            menuitem_clicked.execute(self)
 
     def Update(self):
         # Game logic goes here
         pass
-    
-    def Render(self):
+
+    def render(self):
         # Render to the main display
         SCREEN.fill(BG_COLOR1)
-        render_text_centered(self.message, FONT_NORMAL, WHITE, 9.5, 7)
-        
+        rect = pg.Rect(100, 200, 600, 500)
+        surf = render_textrect(self.message, FONT_NORMAL, rect, WHITE, 1)
+        SCREEN.blit(surf, rect)
+        self.menuitem_back.render(True)

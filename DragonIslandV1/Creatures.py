@@ -384,7 +384,7 @@ class Role_Wizard(Role):
         if action == 'a':
             print('WOW！你选择了', '攻击！', '这可是勇者的行为！', 'Good Luck!', sep='\n')
             attack_way = input('作为一名法师，你可以使用你的火球(AB-1，AC+1)，或用你的闪电（AB-1，AC+1），\n\
-                或者使用冲击（AB-1，HP+1）敌人冲去（a/b/c）：'                                                                                                                                          ).lower()
+                或者使用冲击（AB-1，HP+1）敌人冲去（a/b/c）：').lower()
             if attack_way == 'a':
                 print('你选择了使用火球攻击，加油！')
                 self.AB -= 1

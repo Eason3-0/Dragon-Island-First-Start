@@ -37,22 +37,17 @@ if __name__ == '__main__':
                         pg.mixer.music.set_volume(1.0)
                         mute = False
                 else:
-                    active_scene.ProcessInput(event.key)
+                    active_scene.process_input(event.key)
             elif event.type == QUIT:
                 running = False
 
-        active_scene.ProcessInput()
-        active_scene.Update()
-        active_scene.Render()
+        active_scene.process_input()
+        active_scene.update()
+        active_scene.render()
         active_scene = active_scene.next
 
         fps_clock.tick(FPS)
 
-        # self.update_creature_info(role, self.surf_role)
-        # self.update_creature_info(monster, self.surf_monster)
-
-        #SCREEN.blit(self.surf_bg, (0, 0))
-
         pg.display.flip()
 
-    pg.quit()
+    quit_game()

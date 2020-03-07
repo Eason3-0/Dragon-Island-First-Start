@@ -40,7 +40,7 @@ TILES = tools.load_all_images(os.path.join('resources', 'tiles'))
 SFX = tools.load_all_sfx(os.path.join('resources', 'sound'))
 # TMX = tools.load_all_tmx(os.path.join('resources', 'tmx'))
 
-pg.display.set_caption('Dragon Island 1.0')
+pg.display.set_caption('Dragon Island: First Start')
 pg.display.set_icon(IMAGES['icon'])
 
 FONT_NORMAL = pg.font.Font(FONTS['FZXIANGSU'], 20)

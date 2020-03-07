@@ -1,4 +1,5 @@
 import os
+import sys
 import pygame as pg
 
 def load_all_images(directory, colorkey=(255,0,255), accept=('.png', 'jpg', 'bmp')):
@@ -60,3 +61,7 @@ def get_tile(x, y, tileset, width=16, height=16, scale=1):
                  'rect': rect}
 
     return tile_dict
+
+def quit_game():
+    pg.quit()
+    sys.exit()
