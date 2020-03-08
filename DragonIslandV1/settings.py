@@ -43,6 +43,12 @@ SFX = tools.load_all_sfx(os.path.join('resources', 'sound'))
 pg.display.set_caption('Dragon Island: First Start')
 pg.display.set_icon(IMAGES['icon'])
 
+FONT_SMALL = pg.font.Font(FONTS['FZXIANGSU16'], 16)
+FONT_SMALL.set_bold(True)
+
 FONT_NORMAL = pg.font.Font(FONTS['FZXIANGSU'], 20)
+FONT_NORMAL2 = pg.font.Font(FONTS['FZXIANGSU'], 22)
+FONT_NORMAL3 = pg.font.Font(FONTS['FZXIANGSU12'], 24)
+
 FONT_LARGE = pg.font.Font(FONTS['FZXIANGSU12'], 36)
 FONT_LARGE.set_bold(True)

@@ -4,7 +4,7 @@ class TextRectException:
     def __str__(self):
         return self.message
 
-def render_textrect(string, font, rect, text_color, justification=0):
+def render_textrect(string, font, rect, text_color, justification=0, space_factor=2):
     """Returns a surface containing the passed text string, reformatted
     to fit within the given rect, word-wrapping as necessary. The text
     will be anti-aliased.
@@ -55,6 +55,6 @@ def render_textrect(string, font, rect, text_color, justification=0):
                 surface.blit(tempsurface, (rect.width - tempsurface.get_width(), accumulated_height))
             else:
                 raise TextRectException("Invalid justification argument: " + str(justification))
-        accumulated_height += font.size(line)[1] * 2
+        accumulated_height += font.size(line)[1] * space_factor
 
     return surface

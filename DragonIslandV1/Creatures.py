@@ -32,18 +32,11 @@ class Creature(ABC):
 # 怪兽的基础类
 class Monster(Creature):
     def get_status_str(self):
-        return f'AC: {self.AC}, AB: {self.AB}, HP: {self.HP}, QB: {self.QB}'
+        return f'AC: {self.AC}\nAB: {self.AB}\nHP: {self.HP}\nQB: {self.QB}'
 
 
 # 网游职业的基础类
 class Role(Creature):
-    attack_results = ['它攻击了你！你受伤了！', '你杀死了它！你赢了！',
-                      '你杀死了它！你赢了！', '你杀死了它！你赢了！', '你杀死了它！你赢了！']
-    escape_results = ['它没有看到你的离开！你安然无恙！', '它攻击了你！你受伤了！',
-                      '它没有看到你的离开！你安然无恙！', '它没有看到你的离开！你安然无恙！', '它没有看到你的离开！你安然无恙！', ]
-    hide_results = ['你没躲过它的攻击！你受伤了！', '它没有发现你，你成功逃过一劫！',
-                    '它没有发现你，你成功逃过一劫！', '它没有发现你，你成功逃过一劫！', '它没有发现你，你成功逃过一劫！']
-
     def __init__(self):
         self.Money = 100
         self.introduce = [f'你选择了{self.Name}！这是一个不错的职业，只是…\n你首先要了解：我们的世界由五大属性组成：',
@@ -54,13 +47,14 @@ class Role(Creature):
                           '与金钱（Money）：你胜利击退可恶的铁脑壳时获取的奖赏',
                           f'当你了解了这些之后，你需要知道{self.Name}的各项属性：\n AC = {self.AC}  HP ={self.HP}  AB = {self.AB}  QB ={self.QB}  Money = {self.Money}\n(任何一项为0，你都会死亡(除Money之外))']
 
+    @classmethod
     def display_role_introduce(self):
         for line in self.introduce:
             print(line)
             time.sleep(1)
 
     def get_status_str(self):
-        return f'AC: {self.AC}, AB: {self.AB}, HP: {self.HP}, QB: {self.QB}, Money: {self.Money}'
+        return f'AC: {self.AC}\nAB: {self.AB}\nHP: {self.HP}\nQB: {self.QB}\nMoney: {self.Money}'
 
 
 # 幼年白龙 lv.3 强者 蛮战
@@ -300,6 +294,8 @@ class Monster_BlzingSkeleton(Monster):
 
 # 战士
 class Role_Fighter(Role):
+    sprite_name = 'fighter'
+
     def __init__(self):
         self.AC = 15
         self.HP = 10
@@ -366,6 +362,8 @@ class Role_Fighter(Role):
 
 # 法师
 class Role_Wizard(Role):
+    sprite_name = 'wizard'
+
     def __init__(self):
         self.AC = 10
         self.HP = 8
@@ -443,6 +441,8 @@ class Role_Wizard(Role):
 
 # 游侠
 class Role_Ranger(Role):
+    sprite_name = 'ranger'
+    
     def __init__(self):
         self.AC = 8
         self.HP = 15
