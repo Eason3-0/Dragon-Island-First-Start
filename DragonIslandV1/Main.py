@@ -14,8 +14,7 @@ from Scenes import *
 if __name__ == '__main__':
     fps_clock = pg.time.Clock()
 
-    # Background music
-    background_music = pg.mixer.music.load(MUSIC['overworld'])
+    pg.mixer.music.load(MUSIC['overworld'])  # Background music
     pg.mixer.music.play(-1, 0.0)
     mute = False
 
@@ -30,7 +29,7 @@ if __name__ == '__main__':
                         mute = True
                     elif mute == True:
                         pg.mixer.music.set_volume(1.0)
-                        mute = Fals
+                        mute = False
                 else:
                     active_scene.process_input(event)
             elif event.type in [MOUSEMOTION, MOUSEBUTTONDOWN]:
