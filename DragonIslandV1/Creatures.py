@@ -28,7 +28,7 @@ class Creature(ABC):
 
         return random.random() < threshhold
 
-
+ 
 # 怪兽的基础类
 class Monster(Creature):
     def get_status_str(self):
@@ -60,11 +60,11 @@ class Role(Creature):
 # 幼年白龙 lv.3 强者 蛮战
 class Monster_YoungWhiteDragon(Monster):
     def __init__(self):
+        self.Name = '幼年白龙'
         self.AC = 16
         self.HP = 15
         self.AB = 12
         self.QB = 8
-        self.Name = '幼年白龙'
         self.Money = random.randint(20, 60)
 
     def do_fight_round(self, role):
@@ -107,11 +107,11 @@ class Monster_YoungWhiteDragon(Monster):
 # 地精剑士 lv.1 杂兵
 class Monster_GoblinCutter(Monster):
     def __init__(self):
+        self.Name = '地精剑士'
         self.AC = 8
         self.HP = 3
         self.AB = 7
         self.QB = 10
-        self.Name = '地精剑士'
         self.Money = random.randint(1, 50)
 
     def do_fight_round(self, role):
@@ -248,11 +248,11 @@ class Monster_DecrepitSkeleton(Monster):
 # 炽焰骷髅 lv.5 远程
 class Monster_BlzingSkeleton(Monster):
     def __init__(self):
+        self.Name = '炽焰骷髅'
         self.AC = 10
         self.HP = 18
         self.AB = 10
         self.QB = 3
-        self.Name = '炽焰骷髅'
         self.Money = random.randint(35, 70)
 
     def do_fight_round(self, role):
@@ -297,11 +297,11 @@ class Role_Fighter(Role):
     sprite_name = 'fighter'
 
     def __init__(self):
+        self.Name = '战士'
         self.AC = 15
         self.HP = 10
         self.AB = 15
         self.QB = 8
-        self.Name = '战士'
         Role.__init__(self)
 
     def do_fight_round(self, monster):
@@ -365,11 +365,11 @@ class Role_Wizard(Role):
     sprite_name = 'wizard'
 
     def __init__(self):
+        self.Name = '法师'
         self.AC = 10
         self.HP = 8
         self.AB = 15
         self.QB = 15
-        self.Name = '法师'
         Role.__init__(self)
 
     def do_fight_round(self, monster):
@@ -444,11 +444,11 @@ class Role_Ranger(Role):
     sprite_name = 'ranger'
     
     def __init__(self):
+        self.Name = '游侠'
         self.AC = 8
         self.HP = 15
         self.AB = 10
         self.QB = 15
-        self.Name = '游侠'
         Role.__init__(self)
 
     def do_fight_round(self, monster):

@@ -185,8 +185,7 @@ class CharactorSelection_Scene(SceneBase):
         self.role_index = 0
 
         def back_action(): self.next = MAIN_MENU
-        self.menuitems = (#Menuitem('说 明', 1, 4, 2.5, 1, self, func_intro),
-                          Menuitem('战 士' + ' ' * 8, 1, 6, 4, 0, self),
+        self.menuitems = (Menuitem('战 士' + ' ' * 8, 1, 6, 4, 0, self),
                           Menuitem('法 师' + ' ' * 8, 1, 6, 7.5, 0, self),
                           Menuitem('游 侠' + ' ' * 8, 1, 6, 11, 0, self),
                           Menuitem('返 回', 1, 4, 13, 1, self, back_action),)
@@ -238,9 +237,6 @@ class CharactorSelection_Scene(SceneBase):
         surf = render_textrect(message, FONT_SMALL, rect, (200, 200, 200), 0, 1.5)
         SCREEN.blit(surf, rect)
 
-class Shop_Scene(SceneBase):
-    pass
-
 
 class Message_Scene(SceneBase):
     def __init__(self, msg, scene_from):
@@ -261,3 +257,24 @@ class Message_Scene(SceneBase):
 
         for index, item in enumerate(self.menuitems):
             item.render(index == self.selected_index)
+
+class Fight_Scence(SceneBase):
+
+    def __init__(self):
+        self.turn = 0
+
+# 游戏结束，请用户选择是否再来一局
+class GameOver_Scene(SceneBase):
+
+    def render(self):
+            # Render to the main display
+            SCREEN.fill(BG_COLOR1)
+            rect = pg.Rect(100, 200, 600, 500)
+            surf = render_textrect(self.message, FONT_NORMAL, rect, WHITE, 1)
+            SCREEN.blit(surf, rect)
+
+            for index, item in enumerate(self.menuitems):
+                item.render(index == self.selected_index)
+
+class Shop_Scene(SceneBase):
+    pass

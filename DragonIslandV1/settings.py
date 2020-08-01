@@ -21,7 +21,7 @@ HALF_TILE_SIZE = 20
 
 FPS = 30
 
-SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
+SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = 800, 640
 FRAME_WIDTH = 3
 
 # 设置运行环境
@@ -32,6 +32,9 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'  # 使Pygame窗体居中
 # Pygame窗口初始化
 pg.init()
 SCREEN = pg.display.set_mode(SCREEN_SIZE)
+
+land_list = ['宝库', '草地', '高山', '池塘', '火山', '黑森林', '森林',
+             '废墟', '神殿', '沙漠', '沼泽', '矿洞', '大海']  # 创立一个地点列表备用
 
 FONTS = tools.load_all_fonts(os.path.join('resources', 'fonts'))
 MUSIC = tools.load_all_music(os.path.join('resources', 'music'))

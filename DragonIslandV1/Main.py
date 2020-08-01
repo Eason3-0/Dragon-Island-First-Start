@@ -16,7 +16,8 @@ if __name__ == '__main__':
 
     pg.mixer.music.load(MUSIC['overworld'])  # Background music
     pg.mixer.music.play(-1, 0.0)
-    mute = False
+    mute = True
+    pg.mixer.music.set_volume(0.0)
 
     active_scene = Mainmenu_Scene()
     running = True
@@ -24,12 +25,9 @@ if __name__ == '__main__':
         for event in pg.event.get():
             if event.type == KEYDOWN:
                 if event.key == K_m:
-                    if mute == False:
-                        pg.mixer.music.set_volume(0.0)
-                        mute = True
-                    elif mute == True:
-                        pg.mixer.music.set_volume(1.0)
-                        mute = False
+                    mute = not mute
+                    volume_level = 0.0 if mute else 1.0
+                    pg.mixer.music.set_volume(volume_level)
                 else:
                     active_scene.process_input(event)
             elif event.type in [MOUSEMOTION, MOUSEBUTTONDOWN]:
@@ -41,11 +39,9 @@ if __name__ == '__main__':
         active_scene.render()
 
         # change active_scene to its next and reset its next to itself
-        old_scene = active_scene
-        active_scene = active_scene.next
-        old_scene.next = old_scene
+        active_scene.next, active_scene = active_scene, active_scene.next
 
         fps_clock.tick(FPS)
-        pg.display.flip()
+        pg.display.update()
 
     quit_game()
