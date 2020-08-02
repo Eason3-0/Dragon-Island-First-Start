@@ -19,7 +19,8 @@ class Creature(ABC):
     HP = 0 # 生命值
     QB = 0 # 灵敏值
     Bag = []  # 背包
-    
+    Name = 'Uknown'
+
     @abstractmethod
     def get_status_str(self): # 状态字符串
         raise NotImplementedError()
@@ -515,7 +516,7 @@ def display_cookie_for_input():
     if openlog == '/log.makers':
         print('HACKER.C.D.GAME STUDIO', 'GAME MAKERS:',
             'PRODUCTION DIRECTOR(制作总监):Eason Chen', 'OPTIMIZATION（代码总监）:Jason Chen',
-            'ORIGINALITY FROM(创意来源):Chloe Zhao&Wind Is blowing Li&Amy Wu'sep='\n')
+            'ORIGINALITY FROM(创意来源):Chloe Zhao&Wind Is blowing Li&Amy Wu', sep='\n')
         time.sleep(2)
         print('Thanks For Playing our Game! :D')
         time.sleep(2)
